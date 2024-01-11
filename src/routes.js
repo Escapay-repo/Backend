@@ -3,6 +3,7 @@ import TabelaController from './controllers/TabelaController.js';
 import SessionController from './controllers/SessionController.js';
 import AuthMiddleware from './middlewares/authMiddleware.js';
 import MaquininhaController from './controllers/MaquininhaController.js';
+import cors from 'cors';
 
 const routes = new Router();
 // Rotas protegidas por JWT
@@ -30,5 +31,12 @@ routes.post('/users/login', SessionController.userLogin);
 
 // Rota de logout
 routes.post('/users/logout', AuthMiddleware.authenticateToken, SessionController.userLogout);
+
+// Rotas de dados do usuario
+routes.get('/users/all', AuthMiddleware.authenticateToken, SessionController.getAllUsers);
+routes.delete('/users/delete/:_id', AuthMiddleware.authenticateToken, SessionController.deleteUser);
+routes.put('/users/toggleStatus/:_id', SessionController.toggleUserStatus);
+
+routes.options('/users/me', cors());
 
 export default routes

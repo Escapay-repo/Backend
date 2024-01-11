@@ -19,7 +19,7 @@ class App {
     middlewares() {
         this.server.use('*', cors({
             origin: 'escapaybank-integracoes.com.br',
-            //origin: 'http://localhost:4200',
+            // origin: 'http://localhost:4200',
             methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
             allowedHeaders: ['Content-Type', 'Authorization'],
             credentials: true,

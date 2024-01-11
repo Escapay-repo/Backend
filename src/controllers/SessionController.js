@@ -12,7 +12,7 @@ class SessionController {
         return res.status(400).json({ error: 'Email já está em uso.' });
       }
 
-      const newUser = await User.create({ name, email, password, admin });
+      const newUser = await User.create({ name, email, password, admin, active: false });
 
       return res.json({ user: newUser });
     } catch (error) {
@@ -40,11 +40,13 @@ class SessionController {
       }
       const token = AuthController.generateToken(user);
       console.log('Token gerado:', token);
+      console.log('user', user)
 
       return res.json({
         user,
         admin: user.admin,
-        token
+        token,
+        active: user.active
       });
 
     } catch (error) {
@@ -123,6 +125,47 @@ class SessionController {
 
     return res.json({ message: 'Email alterado com sucesso.' });
   }
+
+  async getAllUsers(req, res) {
+    try {
+      const users = await User.find();
+      return res.json(users);
+    } catch (error) {
+      console.error('Erro ao obter todos os usuários:', error);
+      return res.status(500).json({ error: 'Erro interno do servidor.' });
+    }
+  }
+
+  async deleteUser(req, res) {
+    const userId = req.params._id;
+    try {
+      await User.findByIdAndDelete(userId);
+      return res.json({ message: 'Usuário excluído com sucesso.' });
+    } catch (error) {
+      console.error('Erro ao excluir o usuário:', error);
+      return res.status(500).json({ error: 'Erro interno do servidor.' });
+    }
+  }
+
+  async toggleUserStatus(req, res) {
+    const userId = req.params._id;
+    try {
+      const user = await User.findById(userId);
+
+      if (!user) {
+        return res.status(404).json({ error: 'Usuário não encontrado.' });
+      }
+
+      user.active = !user.active; // Inverte o status
+      await user.save();
+
+      return res.json({ message: `Usuário ${user.active ? 'ativado' : 'desativado'} com sucesso.` });
+    } catch (error) {
+      console.error(`Erro ao ativar/desativar o usuário:`, error);
+      return res.status(500).json({ error: 'Erro interno do servidor.' });
+    }
+  }
+
 
 }
 
