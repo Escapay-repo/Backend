@@ -38,15 +38,18 @@ class SessionController {
       if (!password) {
         return res.status(400).json({ error: 'A senha é obrigatória.' });
       }
+
+      user.lastLogin = new Date();
+      await user.save();
+
       const token = AuthController.generateToken(user);
-      console.log('Token gerado:', token);
-      console.log('user', user)
 
       return res.json({
         user,
         admin: user.admin,
         token,
-        active: user.active
+        active: user.active,
+        dateLogin: user.lastLogin,
       });
 
     } catch (error) {

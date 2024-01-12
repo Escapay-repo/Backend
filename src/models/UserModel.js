@@ -7,6 +7,7 @@ const UserSchema = new Schema({
   password: String,
   admin: Boolean,
   active: Boolean,
+  lastLogin: Date,
 })
 
 UserSchema.pre("save", async function (next) {
