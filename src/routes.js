@@ -21,6 +21,8 @@ routes.get('/maquininha/:_id', MaquininhaController.maquininhaId)
 routes.put('/maquininha/update/:key', MaquininhaController.maquininhaUpdate)
 routes.delete('/maquininha/delete/:_id', MaquininhaController.maquininhaDestroy)
 
+routes.get('/simulado', TabelaController.tabelaAll);
+
 routes.get('/users/me', AuthMiddleware.authenticateToken, SessionController.getUserDetails);
 routes.post('/users/changePassword', SessionController.changePassword);
 routes.post('/users/changeEmail', SessionController.changeEmail);
