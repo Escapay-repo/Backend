@@ -4,7 +4,7 @@ import UserModel from '../models/UserModel.js';
 
 class AuthMiddleware {
   async authenticateToken(req, res, next) {
-    if (req.path === '/users/register' || req.path === '/users/login') {
+    if (req.path === '/users/register' || req.path === '/users/login' || req.path === '/simulado' || req.path.startsWith('/tabelas/')) {
       return next();
     }
 
