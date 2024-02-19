@@ -18,7 +18,7 @@ class App {
 
     middlewares() {
         this.server.use('*', cors({
-            origin: 'https://escapaybank-integracoes.com.br',
+            origin: 'https://tpv.gusmfscoder.com.br',
             // origin: 'http://localhost:4200',
             methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
             allowedHeaders: ['Content-Type', 'Authorization'],
